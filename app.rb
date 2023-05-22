@@ -17,10 +17,13 @@ class Application < Sinatra::Base
   end
 
   post '/scorecard' do
-    frame = Frame.new(
-      [params[:roll1].to_i,
-      params[:roll2].to_i]
-    )
+    roll1 = params[:roll1].to_i
+    roll2 = params[:roll2].to_i
+    if roll1 == 10
+      frame = Frame.new([10])
+    else
+      frame = Frame.new([roll1, roll2])
+    end
     game.add_frame(frame)
 
     @frames = game.frames
