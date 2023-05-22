@@ -10,6 +10,7 @@ class Application < Sinatra::Base
   end
 
   get '/scorecard' do
+    @frames = []
     return erb(:scorecard)
   end
 end

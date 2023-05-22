@@ -3,7 +3,7 @@
 You'll need to include:
   * the HTTP method - GET
   * the path - /scorecard
-  * any query parameters (passed in the URL)
+  * any body params: roll1, roll2
 
 ## 2. Design the Response
 
@@ -22,39 +22,16 @@ a form for rolls to be filled out, and running total values
       <input type="int" name="roll1"><br>
       <label for="roll2">Roll two:</label>
       <input type="int" name="roll2">
+      <label for="roll3">Roll three (if final frame):</label>
+      <input type="int" name="roll3"><br>
       <input type="submit" value="Enter frame!">
     </form><br>
 
-    <p>Frame 1: <%= @frames[0].rolls[0] %>, <%= @frames[0].rolls[1] %></p><br>
-    <p>Score: <%= %></p>
-    <br><br>
-    <p>Frame 2: <%= @frames[1].rolls[0] %>, <%= @frames[1].rolls[1] %></p><br>
-    <p>Score: <%= %></p>
-    <br><br>
-    <p>Frame 3: <%= @frames[2].rolls[0] %>, <%= @frames[2].rolls[1] %></p><br>
-    <p>Score: <%= %></p>
-    <br><br>
-    <p>Frame 4: <%= @frames[3].rolls[0] %>, <%= @frames[3].rolls[1] %></p><br>
-    <p>Score: <%= %></p>
-    <br><br>
-    <p>Frame 5: <%= @frames[4].rolls[0] %>, <%= @frames[4].rolls[1] %></p><br>
-    <p>Score: <%= %></p>
-    <br><br>
-    <p>Frame 6: <%= @frames[0].rolls[5] %>, <%= @frames[5].rolls[1] %></p><br>
-    <p>Score: <%= %></p>
-    <br><br>
-    <p>Frame 7: <%= @frames[1].rolls[6] %>, <%= @frames[6].rolls[1] %></p><br>
-    <p>Score: <%= %></p>
-    <br><br>
-    <p>Frame 8: <%= @frames[2].rolls[7] %>, <%= @frames[7].rolls[1] %></p><br>
-    <p>Score: <%= %></p>
-    <br><br>
-    <p>Frame 9: <%= @frames[3].rolls[8] %>, <%= @frames[3].rolls[8] %></p><br>
-    <p>Score: <%= %></p>
-    <br><br>
-    <p>Frame 10: <%= @frames[9].rolls[0] %>, <%= @frames[9].rolls[1] %>, <%= @frames[9].rolls[2] %>></p><br>
-    <p>Score: <%= %></p>
-    <br><br>
+    <% @frames.each_with_index |frame, i| do %>
+      <p>Frame <%= i %>: <%= frame.rolls[0] %>, <%= frame.rolls[1] %></p><br>
+      <p>Score: <%= @game.total_up_to(i) %></p>
+      <br><br>
+    <% end %>
 
   </body>
 </html>
@@ -73,7 +50,8 @@ _Replace these with your own design._
 ```
 # Request:
 
-GET /scorecard
+POST /scorecard
+params: roll1 = 2, roll2 = 2
 
 # Expected response:
 
@@ -86,10 +64,19 @@ Response for 200 OK
     <form action="/scorecard" method="POST">
       <label for="roll1">Roll one:</label>
       <input type="int" name="roll1"><br>
+
       <label for="roll2">Roll two:</label>
       <input type="int" name="roll2">
+
+      <label for="roll3">Roll three (if final frame):</label>
+      <input type="int" name="roll3"><br>
+
       <input type="submit" value="Enter frame!">
     </form><br>
+
+    <p>Frame 1: 2, 2</p><br>
+    <p>Score: 4</p>
+    <br><br>
   <body>
 </html>
 
@@ -110,10 +97,15 @@ describe Application do
 
   context "GET /scorecard" do
     it 'returns 200 OK' do
-      response = get('/scorecard')
+      response = post(
+        '/scorecard',
+        roll1: 2,
+        roll2: 2
+      )
 
       expect(response.status).to eq(200)
-      expect(response.body).to include('<form action="/scorecard" method="POST">')
+      expect(response.body).to include('<p>Frame 1: 2, 2</p><br>')
+      expect(response.body).to include('<p>Score: 4</p>')
     end
   end
 end
