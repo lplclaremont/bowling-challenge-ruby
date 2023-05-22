@@ -7,4 +7,8 @@ class Application < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
   end
+
+  get '/scorecard' do
+    return erb(:scorecard)
+  end
 end
