@@ -210,7 +210,12 @@
           null
         ]
       },
-      "/Users/louisclaremont/Projects/bowling-challenge-ruby/spec/integration_spec/bowling_game_spec.rb": {
+      "/Users/louisclaremont/Projects/bowling-challenge-ruby/spec/integration/app_spec.rb": {
+        "lines": [
+
+        ]
+      },
+      "/Users/louisclaremont/Projects/bowling-challenge-ruby/spec/integration/bowling_game_spec.rb": {
         "lines": [
           1,
           null,
@@ -453,6 +458,6 @@
         ]
       }
     },
-    "timestamp": 1684786736
+    "timestamp": 1684788657
   }
 }
