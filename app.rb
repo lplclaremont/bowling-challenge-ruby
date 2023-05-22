@@ -9,8 +9,22 @@ class Application < Sinatra::Base
     register Sinatra::Reloader
   end
 
+  game = BowlingGame.new
+
   get '/scorecard' do
     @frames = []
+    return erb(:scorecard)
+  end
+
+  post '/scorecard' do
+    frame = Frame.new(
+      [params[:roll1].to_i,
+      params[:roll2].to_i]
+    )
+    game.add_frame(frame)
+
+    @frames = game.frames
+    @game = game
     return erb(:scorecard)
   end
 end

@@ -11,12 +11,12 @@
 
       <label for="roll3">Roll three (if final frame):</label>
       <input type="int" name="roll3"><br>
-      
+
       <input type="submit" value="Enter frame!">
     </form><br>
 
     <% @frames.each_with_index do |frame, i| %>
-      <p>Frame <%= i %>: <%= frame.rolls[0] %>, <%= frame.rolls[1] %></p><br>
+      <p>Frame <%= i + 1 %>: <%= frame.rolls[0] %>, <%= frame.rolls[1] %></p>
       <p>Score: <%= @game.total_up_to(i) %></p>
       <br><br>
     <% end %>
