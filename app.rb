@@ -17,15 +17,7 @@ class Application < Sinatra::Base
   end
 
   post '/scorecard' do
-    # roll1 = params[:roll1].to_i
-    # roll2 = params[:roll2].to_i
-    # if roll1 == 10
-    #   frame = Frame.new([10])
-    # else
-    #   frame = Frame.new([roll1, roll2])
-    # end
-    frame = construct_frame
-    game.add_frame(frame)
+    game.add_frame(construct_frame)
 
     @frames = game.frames
     @game = game
@@ -38,7 +30,7 @@ class Application < Sinatra::Base
     roll1 = params[:roll1].to_i
     roll2 = params[:roll2].to_i
     roll3 = params[:roll3]
-    if roll1 == 10 && roll3.nil?
+    if roll1 == 10 && roll3.empty?
       frame = Frame.new([10])
     elsif roll3.nil?
       frame = Frame.new([roll1, roll2])
